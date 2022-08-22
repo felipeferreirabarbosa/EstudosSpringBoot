@@ -49,7 +49,9 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter{
 		.antMatchers(HttpMethod.GET, "/topicos/*").permitAll()
 		.antMatchers(HttpMethod.POST, "/auth").permitAll()
 		.antMatchers(HttpMethod.GET, "/actuator/**").permitAll()
+		.antMatchers(HttpMethod.GET, "/").permitAll()
 		.antMatchers("/h2-console/**").permitAll()
+		.antMatchers("/swagger-ui/**").permitAll()
 		.anyRequest().authenticated()
 		.and().csrf().disable()
 		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -62,8 +64,13 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter{
 	//Metodo para configurar recursos estaticos (e.g.: js, css, img)
 	@Override
 	public void configure(WebSecurity web) throws Exception {
-
+	    web.ignoring().antMatchers("/**.html",
+	    		"/v2/api-docs",
+	    		"/webjars/**",
+	    		"/configuration/**", 
+	    		"/swagger-resources/**");
 	}
+	
 	//Metodo Para gerar senha de usuario diretamente no banco para testes
 	/*
 	 * public static void main(String[] args ) { System.out.println(new
